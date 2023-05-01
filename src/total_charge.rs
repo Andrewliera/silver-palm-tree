@@ -71,7 +71,7 @@ fn check_price(item_price: f32){
 
 fn calculate_tax(item_price: f32, item_type: ItemType, fur_item: bool, state: String) -> f32{
  
-    match state.as_str() {
+    match state.trim() {
         "NJ" => {
             let _state_tax_exemption = calculate_tax_exemption(item_type, fur_item, state);
             println!("_state_tax_exemption: {}", _state_tax_exemption);
@@ -105,7 +105,7 @@ fn calculate_tax(item_price: f32, item_type: ItemType, fur_item: bool, state: St
 
 fn calculate_tax_exemption(item_type: ItemType, fur_item: bool, state: String) -> f32 {
     
-    match state.as_str(){
+    match state.trim(){
 
         "NJ" => {
             let _state_tax = 0.066;
@@ -129,6 +129,11 @@ fn calculate_tax_exemption(item_type: ItemType, fur_item: bool, state: String) -
             }
             println!("_state_tax: {}", _state_tax);
             return _state_tax * 0.0;
+        }
+        "DE" => {
+            let _state_tax = 0.0;
+            return _state_tax;
+
         }
         other => {        
             println!("{} is not supposed to be an option", other);
