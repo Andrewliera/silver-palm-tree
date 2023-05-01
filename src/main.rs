@@ -1,7 +1,6 @@
 use std::io;
 mod total_charge;
 
-//holy DRY violation ;_;
 fn add_item() -> total_charge::Item{
     
     let mut user_in = String::new();
@@ -12,7 +11,7 @@ fn add_item() -> total_charge::Item{
     let item_name = user_in.clone();
     user_in.clear();
     
-    println!("123.34");
+    println!("###.##");
     println!("Item Price: ");
     io::stdin()
         .read_line(&mut user_in)
@@ -53,9 +52,7 @@ fn add_item() -> total_charge::Item{
         price: item_price,
         item_type: item_type,
     }; 
-
     return item;
-
 }
 
 
@@ -63,27 +60,24 @@ fn add_item() -> total_charge::Item{
 fn start_prog() {
     let mut user_in = String::new(); 
     let mut cart = vec![];
-    let foobar;
+    let get_charge;
     let state;
     
     loop{
-
     println!("Add Item To Cart?");
     println!("Yes/No");
     io::stdin()
         .read_line(&mut user_in)
         .expect("Failed to read user input");
        
-    match user_in.as_str(){
-        "Yes\n" => {
-            println!("Picked {}", user_in);
+    match user_in.trim(){
+        "Yes" => {
             user_in.clear();
             let new_cart_item = add_item();
             cart.push(new_cart_item);
         }
 
-        "No\n" => {
-            println!("Picked {}", user_in);
+        "No" => {
             user_in.clear();
             break;
             }
@@ -117,13 +111,12 @@ fn start_prog() {
         panic!("Panicking...");
         }
     } 
-    foobar = total_charge::calculate_total_charge(cart, state);
-    println!("the total cost of the items is: {} ", foobar);
+    get_charge = total_charge::calculate_total_charge(cart, state);
+    println!("the total cost of the items is: {} ", get_charge);
 }
 
 
 fn main() {
     println!("Capstone Hw");
     start_prog();
-
 }

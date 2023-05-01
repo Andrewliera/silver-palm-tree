@@ -19,15 +19,9 @@ pub fn calculate_total_charge(cart:Vec<Item>, state: String) -> f32 {
     for item in cart{
         total_charge += calculate_item_charge(item, state.clone());
     }
-    println!("total charge: {}", total_charge);
     return total_charge;
 }
 fn calculate_item_charge(cart_item: Item, state: String) -> f32 {
-    
- 
-    println!("{:?}", cart_item);
-    println!("{}", state);
-
     let current_item_price = cart_item.price;
     let current_item_type = cart_item.item_type;
     let current_item_name = cart_item.name.expect("Bad Input").to_string();
@@ -38,7 +32,6 @@ fn calculate_item_charge(cart_item: Item, state: String) -> f32 {
 
     let current_item_tax = calculate_tax(current_item_price, current_item_type, fur_item, state);
     let current_item_total = current_item_price + current_item_tax;
-
     return current_item_total;
 }
 
@@ -53,9 +46,10 @@ fn check_name(item_name: String) -> bool{
     let set = RegexSet::new(&[
     r"Fur",
     r"fur",
+    r"FUR",
+    r"FUr",
     ]).unwrap();
     if set.is_match(&item_name){
-        println!("Regex match found: {}", item_name);
         fur_item = true;
     }
     return fur_item;
@@ -74,26 +68,21 @@ fn calculate_tax(item_price: f32, item_type: ItemType, fur_item: bool, state: St
     match state.trim() {
         "NJ" => {
             let _state_tax_exemption = calculate_tax_exemption(item_type, fur_item, state);
-            println!("_state_tax_exemption: {}", _state_tax_exemption);
             let _state_tax = 0.066;
             let _item_tax = item_price * (_state_tax - _state_tax_exemption);
-            println!("_item_tax: {}", _item_tax);
             return _item_tax;
         }
 
         "PA" => {
             let _state_tax_exemption = calculate_tax_exemption(item_type, fur_item, state);
-            println!("_state_tax_exemption: {}", _state_tax_exemption);
             let _state_tax = 0.060;
             let _item_tax = item_price * (_state_tax - _state_tax_exemption);
-            println!("_item_tax: {}", _item_tax);
             return _item_tax;
         }
 
         "DE" => {
             let _state_tax = 0.0;
             let _item_tax = item_price * _state_tax; 
-            println!("_item_tax: {}", _item_tax);
             return _item_tax;
         }
         other => {
@@ -110,7 +99,6 @@ fn calculate_tax_exemption(item_type: ItemType, fur_item: bool, state: String) -
         "NJ" => {
             let _state_tax = 0.066;
             if item_type == ItemType::Wic{
-                println!("_state_tax: {}", _state_tax);
                 return _state_tax
             }else if item_type == ItemType::Clothing && fur_item == true{
                 return _state_tax * 0.0;
@@ -118,16 +106,13 @@ fn calculate_tax_exemption(item_type: ItemType, fur_item: bool, state: String) -
             }else if item_type == ItemType::Clothing && fur_item == false{
                 return _state_tax;
             }
-            println!("_state_tax: {}", _state_tax);
             return _state_tax * 0.0;
         }
         "PA" => {
             let _state_tax = 0.060;
             if item_type == ItemType::Wic || item_type == ItemType::Clothing{
-                println!("_state_tax: {}", _state_tax);
                 return _state_tax
             }
-            println!("_state_tax: {}", _state_tax);
             return _state_tax * 0.0;
         }
         "DE" => {
