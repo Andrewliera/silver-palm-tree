@@ -25,44 +25,34 @@ fn add_item() -> total_charge::Item{
         .read_line(&mut user_in)
         .expect("Failed to read user input");
     
-    let item_type; 
-    match user_in.trim(){
-        "Wic" => {
-            item_type = total_charge::ItemType::Wic;
-
-        }
+     
+    let item_type = match user_in.trim(){
+        "Wic" => total_charge::ItemType::Wic, 
     
-        "EverythingElse" => {
-            item_type = total_charge::ItemType::EverythingElse;
-        }
+        "EverythingElse" => total_charge::ItemType::EverythingElse,
 
-        "Clothing" => {
-            item_type = total_charge::ItemType::Clothing;
-        }
+        "Clothing" => total_charge::ItemType::Clothing ,
     
         other => {
             println!("{} is not an option", other);
             panic!("Panicking...");
         }
-    }
+    };
     user_in.clear();
 
-    let item = total_charge::Item {
+    total_charge::Item {
         name: Some(item_name),
         price: item_price,
-        item_type: item_type,
-    }; 
-    return item;
+        item_type: { item_type },
+    } 
 }
 
 
 
 fn start_prog() {
     let mut user_in = String::new(); 
-    let mut cart = vec![];
-    let get_charge;
-    let state;
-    
+    let mut cart = vec![]; 
+     
     loop{
     println!("Add Item To Cart?");
     println!("Yes/No");
@@ -94,24 +84,19 @@ fn start_prog() {
     io::stdin()
         .read_line(&mut user_in)
         .expect("Failed to read user input");
-    match user_in.trim(){
-        "DE" => {
-            state = user_in; 
-        }
+    let state = match user_in.trim(){
+        "DE" => "DE",
+        
+        "NJ" => "NJ",
 
-        "NJ" => {
-            state = user_in;
-        }
+        "PA" => "PA",
 
-        "PA" => {
-            state = user_in;
-        }
         other => {
         println!("{} is not an option", other);
         panic!("Panicking...");
         }
-    } 
-    get_charge = total_charge::calculate_total_charge(cart, state);
+    };
+    let get_charge = total_charge::calculate_total_charge(cart, state.to_string());
     println!("the total cost of the items is: {} ", get_charge);
 }
 
