@@ -44,10 +44,14 @@ fn check_name(item_name: String) -> bool{
 
     let mut fur_item: bool = false;
     let set = RegexSet::new(&[
-    r"Fur",
-    r"fur",
-    r"FUR",
-    r"FUr",
+        r"Fur",
+        r"fur",
+        r"FUR",
+        r"FUr",
+        r"FuR",
+        r"fUR",
+        r"fUr",
+        r"Fu r ",
     ]).unwrap();
     if set.is_match(&item_name){
         fur_item = true;
