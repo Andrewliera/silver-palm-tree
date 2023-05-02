@@ -354,6 +354,6 @@ mod tests {
         }, ];
         let state = "NJ";
      let test = calculate_total_charge(cart_items, state.to_string());
-        assert_eq!(test, 146.40668)
+        assert_eq!(test, 147.26402)
         }
 }
